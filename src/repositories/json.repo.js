@@ -43,7 +43,7 @@ export default class JsonRepo {
         const all = await this._read();
         const idx = all.findIndex(x => String(x.id) === String(id));
         if (idx === -1) return null;
-        all[idx] = { ...all[idx], ...patch, id: all[idx].id }; // nunca tocar id
+        all[idx] = { ...all[idx], ...patch, id: all[idx].id };
         await this._write(all);
         return all[idx];
     }

@@ -5,7 +5,7 @@ import passport from 'passport';
 
 const router = Router();
 
-// POST /api/adoptions/:pid  -> el usuario logueado adopta
+// POST
 router.post('/:pid',
   passport.authenticate('current', { session:false }),
   async (req, res, next) => {

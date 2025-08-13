@@ -6,7 +6,7 @@ import { AppError, ERRORS } from '../middlewares/error.js';
 
 const router = Router();
 
-/** GET /api/mocks/mockingpets?qty=100  -> genera N pets en formato Mongo (sin owner, adopted=false) */
+//  GET /api/mocks/mockingpets?qty=100 
 router.get('/mockingpets', async (req, res, next) => {
   try {
     const qty = Number(req.query.qty ?? 100);
@@ -17,7 +17,7 @@ router.get('/mockingpets', async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/** GET /api/mocks/mockingusers?qty=50  -> genera N users con pass coder123 (hash), role random y pets:[] */
+//  GET /api/mocks/mockingusers?qty=50
 router.get('/mockingusers', async (req, res, next) => {
   try {
     const qty = Number(req.query.qty ?? 50);
@@ -28,8 +28,6 @@ router.get('/mockingusers', async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/** POST /api/mocks/generateData  body: { users: Number, pets: Number }
- *  Inserta en Mongo la cantidad indicada (emails únicos). */
 router.post('/generateData', async (req, res, next) => {
   try {
     const usersQty = Number(req.body?.users ?? 0);
@@ -59,7 +57,6 @@ router.post('/generateData', async (req, res, next) => {
       inserted: { users: uRes.length || 0, pets: pRes.length || 0 }
     });
   } catch (e) {
-    // Duplicados de email -> 11000
     if (e?.code === 11000) return next(new AppError(ERRORS.DUPLICATE_EMAIL));
     next(e);
   }

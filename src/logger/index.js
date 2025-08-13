@@ -39,7 +39,7 @@ export const logger = winston.createLogger({
   transports
 });
 
-// Middleware para inyectar logger y registrar cada request
+
 export const requestLogger = (req, _res, next) => {
   req.logger = logger;
   logger.http(`➡ ${req.method} ${req.originalUrl}`);

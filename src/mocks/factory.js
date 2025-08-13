@@ -17,9 +17,9 @@ export function mockUser() {
     last_name: faker.person.lastName(),
     email: faker.internet.email().toLowerCase(),
     age: faker.number.int({ min: 18, max: 80 }),
-    password: bcrypt.hashSync('coder123', 10),   // encriptada
-    cart: null,                                  // opcional para tu ecommerce
+    password: bcrypt.hashSync('coder123', 10),
+    cart: null,
     role: faker.helpers.arrayElement(['user','admin']),
-    pets: []                                     // requerido por consigna
+    pets: []
   };
 }

@@ -6,7 +6,7 @@ function ensureDir(p){ fs.mkdirSync(p, { recursive:true }); }
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    // Si el campo se llama "pet" => /uploads/pets, si no => /uploads/documents
+
     const folder = file.fieldname === 'pet' ? 'pets' : 'documents';
     const dest = path.join(process.cwd(), 'uploads', folder);
     ensureDir(dest);
