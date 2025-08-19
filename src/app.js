@@ -32,15 +32,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use('/static', express.static(path.join(__dirname, 'public')));   // estáticos públicos
-app.use('/uploads', express.static('uploads'));                       // archivos subidos
+app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static('uploads'));
 app.use(requestLogger);
 
 /* --- passport --- */
-initPassport();                           // << te faltaba ejecutarlo
+initPassport();
 app.use(passport.initialize());
 
-/* --- flag de sesión para las vistas (ANTES de las rutas) --- */
 app.use((req, res, next) => {
   const COOKIE_NAME = process.env.JWT_COOKIE_NAME || 'jwt';
   const JWT_SECRET  = process.env.JWT_SECRET || 'changeme';
@@ -52,7 +51,6 @@ app.use((req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    // tu payload es { uid }, así que validamos uid
     res.locals.isLoggedIn = Boolean(decoded?.uid);
   } catch {
     res.locals.isLoggedIn = false;
@@ -71,7 +69,6 @@ app.set('view engine', 'handlebars');
 mountSwagger(app);
 
 /* --- rutas --- */
-app.use('/api/products', productsRouter);    // si ya no los usás, podés comentarlos
 app.use('/api/carts', cartsRouter);
 
 app.use('/api/sessions', sessionsRouter);
@@ -81,9 +78,8 @@ app.use('/api/mocks', mocksRouter);
 app.use('/api', loggerRouter);
 app.use('/api/adoptions', adoptionsRouter);
 
-app.use('/', viewsRouter);                   // << después del middleware de sesión
+app.use('/', viewsRouter);
 
-/* --- error handler al final --- */
 app.use(errorHandler);
 
 export default app;

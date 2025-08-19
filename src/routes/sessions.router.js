@@ -85,7 +85,6 @@ router.get('/current', passport.authenticate('current', { session:false }), (req
 router.post('/logout',
   passport.authenticate('current', { session:false }),
   async (req,res) => {
-    // 👇 NUEVO: registrar última conexión
     await UserModel.updateOne(
       { _id: req.user._id },
       { $set: { last_connection: new Date() } }
@@ -101,7 +100,6 @@ router.post('/password/request', async (req, res) => {
   const { email } = req.body;
   const user = await UserModel.findOne({ email });
 
-  // Generamos link siempre que exista el usuario; si no existe, respondemos ok igual.
   let link = null;
   if (user) {
     const token = signReset(user._id); // expira en 1h
@@ -124,14 +122,13 @@ router.post('/password/request', async (req, res) => {
     }
   }
 
-  // Si el mail no existe, respondemos ok (no filtra existencia)
+  // Si el mail no existe, respondemos ok
   res.json({ status: 'ok' });
 });
 
 
 // VERIFY
 router.get('/password/reset', (req,res) => {
-  // si querés, podés renderizar una vista y pasar el token por query
   res.json({ token: req.query.token });
 });
 

@@ -39,7 +39,7 @@ router.get('/pets/:pid', async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-/** Auth (sin cambios funcionales, solo vistas) */
+/** Auth  */
 router.get('/login',  (_req,res)=> res.render('auth/login',    { title:'Iniciar sesión' }));
 router.get('/register',(_req,res)=> res.render('auth/register', { title:'Registrarse' }));
 router.get('/auth/forgot', (_req,res)=> res.render('auth/forgot', { title:'Recuperar contraseña' }));

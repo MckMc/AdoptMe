@@ -7,7 +7,7 @@ export function initPassport() {
     new JwtStrategy(
       {
         jwtFromRequest: ExtractJwt.fromExtractors([
-          (req) => req?.cookies?.jwt,          // lee cookie 'jwt'
+          (req) => req?.cookies?.jwt,
         ]),
         secretOrKey: process.env.JWT_SECRET,
       },
