@@ -21,7 +21,7 @@
       });
       const data = await r.json();
       if(!r.ok) throw new Error(data.error || 'Error');
-      location.href = '/products';
+      location.href = '/home';
     }catch(err){ msg.textContent = err.message; }
   });
 </script>

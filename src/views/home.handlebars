@@ -1,74 +1,42 @@
-<h1>Productos</h1>
+<section class="hero">
+  <img src="/static/img/hero-dog.jpg" alt="Perro mirando" class="hero__img" />
+  <div class="hero__content">
+    <h1>PetAdopt</h1>
+    <p class="lead">
+      Nuestro propósito es conectar mascotas que necesitan una familia con personas
+      que quieren darles un hogar. Adoptar salva vidas y cambia historias.
+    </p>
+    <a href="/pets" class="btn">Ver mascotas</a>
+  </div>
+</section>
 
-<ul>
-  {{#each payload}}
-    <li>
-      <b>{{this.title}}</b> — ${{this.price}} — stock: {{this.stock}}
-      <button onclick="addToCart('{{this._id}}')">Agregar al carrito</button>
-    </li>
-  {{/each}}
-</ul>
+<section class="stats">
+  <div class="stat">
+    <span class="stat__num">{{stats.total}}</span>
+    <span class="stat__label">Mascotas registradas</span>
+  </div>
+  <div class="stat">
+    <span class="stat__num">{{stats.disponibles}}</span>
+    <span class="stat__label">Disponibles</span>
+  </div>
+  <div class="stat">
+    <span class="stat__num">{{stats.adoptadas}}</span>
+    <span class="stat__label">Adoptadas</span>
+  </div>
+</section>
 
-<p><a id="verCarrito" href="#">Ver carrito</a></p>
+<section class="gallery">
+  <figure class="card">
+    <img src="/static/img/cat.jpg" alt="Gato naranja" />
+    <figcaption>Adoptar es compromiso y amor.</figcaption>
+  </figure>
+  <figure class="card">
+    <img src="/static/img/parrot.jpg" alt="Loro verde" />
+    <figcaption>También hay otras especies esperando.</figcaption>
+  </figure>
+  <figure class="card">
+    <img src="/static/img/dog-smile.jpg" alt="Perro feliz" />
+    <figcaption>Una adopción responsable = dos vidas felices.</figcaption>
+  </figure>
+</section>
 
-<nav>
-  {{#if hasPrevPage}} <a href="{{prevLink}}">« Anterior</a> {{/if}}
-  <span>Página {{page}} / {{totalPages}}</span>
-  {{#if hasNextPage}} <a href="{{nextLink}}">Siguiente »</a> {{/if}}
-</nav>
-
-<script>
-  const btn = document.getElementById('logoutBtn');
-  if(btn){
-    btn.addEventListener('click', async ()=>{
-      await fetch('/api/sessions/logout', { method:'POST' });
-      location.href = '/login';
-    });
-  }
-</script>
-<script>
-(async () => {
-  let cartId = localStorage.getItem('cartId');
-  if (!cartId) {
-    const res = await fetch('/api/carts', { method: 'POST' });
-    if (!res.ok) return alert('No se pudo crear el carrito');
-    const data = await res.json();
-    cartId = data._id || data.id;
-    localStorage.setItem('cartId', cartId);
-  }
-  document.getElementById('verCarrito').href = `/carts/${cartId}`;
-
-  //Agregar al carrito
-  window.addToCart = async (pid) => {
-    const res = await fetch(`/api/carts/${cartId}/product/${pid}`, { method: 'POST' });
-    if (!res.ok) return alert('No se pudo agregar al carrito');
-    alert('Agregado al carrito ✔');
-  };
-
-  //Crear producto por HTTP
-  document.getElementById('createProduct').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target));
-    // tipos correctos
-    data.price = Number(data.price);
-    data.stock = Number(data.stock);
-    data.status = true;
-    data.thumbnails = [];
-
-    const res = await fetch('/api/products', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json' },
-      body: JSON.stringify(data)
-    });
-
-    if (!res.ok) {
-      const txt = await res.text();
-      alert('No se pudo crear el producto');
-      console.error(txt);
-      return;
-    }
-    e.target.reset();
-    location.reload();
-  });
-})();
-</script>

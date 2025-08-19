@@ -1,0 +1,35 @@
+<h1>{{pet.name}}</h1>
+<p><b>Especie:</b> {{pet.species}}</p>
+<p><b>Edad:</b> {{pet.ageYears}} años</p>
+<p><b>Estado:</b> {{#if pet.adopted}}Adoptada{{else}}Disponible{{/if}}</p>
+
+{{#if pet.adopted}}
+  <p>Esta mascota ya fue adoptada.</p>
+{{else}}
+  <button id="adoptBtn">Adoptar</button>
+{{/if}}
+
+<p><a href="/pets" target="_self">← Volver al listado</a></p>
+
+<script id="pet-data" type="application/json">{{{petJson}}}</script>
+<script>
+  const pet = JSON.parse(document.getElementById('pet-data').textContent);
+  const btn = document.getElementById('adoptBtn');
+  if (btn) {
+    btn.addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/adoptions/' + pet._id, { method: 'POST' });
+        if (!res.ok) {
+          const t = await res.text();
+          alert('No se pudo completar la adopción: ' + t);
+          return;
+        }
+        alert('¡Adopción exitosa!');
+        location.reload();
+      } catch (e) {
+        console.error(e);
+        alert('Error de red');
+      }
+    });
+  }
+</script>

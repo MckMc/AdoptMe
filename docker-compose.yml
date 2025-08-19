@@ -6,13 +6,13 @@ services:
 
   app:
     build: .
-    ports: ["8080:8080"]
+    ports: ["8081:8081"]
     environment:
-      MONGO_URL: mongodb://mongo:27017/ecommerce
+      MONGO_URL: mongodb://127.0.0.1:27017/ecommerce
       USE_ETHEREAL: "true"
       JWT_SECRET: "changeme"
       RESET_SECRET: "changeme2"
-      BASE_URL: "http://localhost:8080"
+      BASE_URL: "http://localhost:8081"
     depends_on: [mongo]
 
 volumes:
