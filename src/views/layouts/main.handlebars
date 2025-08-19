@@ -5,18 +5,38 @@
     <title>{{title}}</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="/static/css/site.css">
+    <link rel="icon" type="image/svg+xml" href="/static/img/logo.png">
+    <link rel="alternate icon" href="/logo.ico">            {{!-- fallback opcional --}}
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/logo-32.png"> {{!-- opcional --}}
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <header class="topbar">
-    <nav class="nav">
-        <a class="nav__link" href="/products">Productos</a>
-        <a class="nav__link" href="/login">Login</a>
-        <a class="nav__link" href="/register">Registro</a>
-        <a class="nav__link" href="/auth/forgot">Olvidé mi contraseña</a>
-        <button id="logoutBtn" class="nav__btn">Salir</button>
-    </nav>
+  <nav class="nav">
+    <a class="nav__logo" href="/home">
+      <img src="/static/img/logo.png" alt="Logo" width="60" height="60">
+    <a class="nav__link" href="/home">Home</a>
+    <a class="nav__link" href="/pets">Mascotas</a>
+
+{{#if isLoggedIn}}
+    <button id="logoutBtn" class="nav__btn">Salir</button>
+  {{else}}
+    <a class="nav__link" id="loginLink" href="/login">Login</a>
+  {{/if}}
+  </nav>
 </header>
 
 <body>
-    {{{body}}}
+  {{{body}}}
+  <script>
+  const btn = document.getElementById('logoutBtn');
+  if (btn) {
+    btn.addEventListener('click', async () => {
+      try { await fetch('/api/sessions/logout', { method:'POST', credentials:'include' }); } catch {}
+      location.href = '/login';
+    });
+  }
+</script>
+</body>
+
 </html>

@@ -7,7 +7,7 @@ RUN npm ci --omit=dev
 COPY . .
 ENV NODE_ENV=production \
     USE_ETHEREAL=true \
-    PORT=8080
-EXPOSE 8080
+    PORT=8081
+EXPOSE 8081
 
 CMD ["node","src/server.js"]

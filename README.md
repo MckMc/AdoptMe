@@ -7,8 +7,8 @@ Proyecto Coderhouse: Backend III
 
 ## Arranque rápido (Docker)
 docker compose up -d --build
-# App:     http://localhost:8080/
-# Swagger: http://localhost:8080/api/docs
+# App:     http://localhost:8081/
+# Swagger: http://localhost:8081/api/docs
 
 ## Para ver logs:
 docker compose logs -f app

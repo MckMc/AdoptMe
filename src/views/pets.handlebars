@@ -1,0 +1,66 @@
+<h1>Mascotas en adopción</h1>
+
+<form id="filters" style="margin-bottom:1rem">
+  <label>
+    Especie:
+    <select name="species" id="species">
+      <option value="">Todas</option>
+      <option value="dog">Perros</option>
+      <option value="cat">Gatos</option>
+      <option value="other">Otras</option>
+    </select>
+  </label>
+  <label style="margin-left: 1rem;">
+    Estado:
+    <select name="adopted" id="adopted">
+      <option value="">Todas</option>
+      <option value="false">Disponibles</option>
+      <option value="true">Adoptadas</option>
+    </select>
+  </label>
+  <button type="submit">Filtrar</button>
+</form>
+
+<ul>
+  {{#each payload}}
+    <li>
+      <b>{{this.name}}</b> — {{this.species}} — {{this.ageYears}} años — 
+      {{#if this.adopted}}<i>Adoptada</i>{{else}}<i>Disponible</i>{{/if}}
+      <a href="/pets/{{this._id}}" target="_blank">Ver más →</a>
+    </li>
+  {{/each}}
+</ul>
+
+<nav style="margin-top:1rem">
+  {{#if hasPrevPage}} <a href="{{prevLink}}">« Anterior</a> {{/if}}
+  <span>Página {{page}} / {{totalPages}}</span>
+  {{#if hasNextPage}} <a href="{{nextLink}}">Siguiente »</a> {{/if}}
+</nav>
+
+<script>
+  // hydrate filters from query params
+  const params = new URLSearchParams(location.search);
+  const species = params.get('species') || '';
+  const adopted = params.get('adopted') || '';
+  document.getElementById('species').value = species;
+  document.getElementById('adopted').value = adopted;
+
+  document.getElementById('filters').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const sp = document.getElementById('species').value;
+    const ad = document.getElementById('adopted').value;
+    const q = new URLSearchParams();
+    if (sp) q.set('species', sp);
+    if (ad) q.set('adopted', ad);
+    location.href = '/pets' + (q.toString() ? '?' + q.toString() : '');
+  });
+
+  // logout
+  const btn = document.getElementById('logoutBtn');
+  if(btn){
+    btn.addEventListener('click', async ()=>{
+      await fetch('/api/sessions/logout', { method:'POST' });
+      location.href = '/login';
+    });
+  }
+</script>

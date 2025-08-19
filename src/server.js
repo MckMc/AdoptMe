@@ -7,7 +7,7 @@ import { seedProductsIfEmpty } from './seed/products.seed.js';
 const server = http.createServer(app);
 registerSockets(server);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8081;
 
 connectMongo()
   .then(async () => {
