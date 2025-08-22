@@ -270,3 +270,8 @@
 {"level":"http","message":"➡ GET /home","timestamp":"2025-08-22T03:23:09.414Z"}
 {"level":"http","message":"➡ GET /pets","timestamp":"2025-08-22T03:23:19.378Z"}
 {"level":"http","message":"➡ GET /pets/68a7e2991d834191d50fcca5","timestamp":"2025-08-22T03:23:31.141Z"}
+{"level":"http","message":"➡ GET /","timestamp":"2025-08-22T04:01:01.836Z"}
+{"level":"http","message":"➡ GET /home","timestamp":"2025-08-22T04:01:01.847Z"}
+{"level":"http","message":"➡ GET /.well-known/appspecific/com.chrome.devtools.json","timestamp":"2025-08-22T04:01:28.727Z"}
+{"level":"http","message":"➡ GET /","timestamp":"2025-08-22T04:17:00.295Z"}
+{"level":"http","message":"➡ GET /home","timestamp":"2025-08-22T04:17:00.317Z"}

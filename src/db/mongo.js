@@ -1,8 +1,10 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
-import { MONGO_URL } from '../config/env.js';
+
+const uri = process.env.MONGO_URL
+  ?? `mongodb+srv://${process.env.MONGO_USER}:${encodeURIComponent(process.env.MONGO_PASS)}@${process.env.MONGO_HOST}/${process.env.MONGO_DB}?retryWrites=true&w=majority&appName=AdoptMe`;
 
 export async function connectMongo() {
-  await mongoose.connect(MONGO_URL, { dbName: 'ecommerce' });
-  console.log('Mongo connected:', MONGO_URL);
+  await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });
+  console.log('Mongo connected:', uri.replace(/:[^@]+@/, ':***@'));
 }

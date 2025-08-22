@@ -1,4 +1,4 @@
-# Ecommerce Backend
+# AdoptMe
 
 Proyecto Coderhouse: Backend III
 
@@ -7,8 +7,23 @@ Proyecto Coderhouse: Backend III
 
 ## Arranque rápido (Docker)
 docker compose up -d --build
-# App:     http://localhost:8081/
-# Swagger: http://localhost:8081/api/docs
+# App
+NODE_ENV=production
+PORT=8081
+BASE_URL=http://localhost:8081
+
+# Mongo (usa Atlas o local)
+# Atlas (recomendado para dev compartido):
+MONGO_URL=L=mongodb+srv://manuelcecchinkuhn:Gchu2025@cluster0.lsxnlkr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+# Local (alternativa):
+# MONGO_URL="mongodb://127.0.0.1:27017/adoptme"
+
+# Auth / reset
+JWT_SECRET=changeme
+RESET_SECRET=changeme2
+
+# Mailer
+USE_ETHEREAL=true
 
 ## Para ver logs:
 docker compose logs -f app
@@ -16,9 +31,6 @@ docker compose logs -f app
 ## Para apagar:
 docker compose down
 
-## Ejecutar local (sin Docker)
-1. Tener MongoDB local corriendo en mongodb://127.0.0.1:27017.
-2. Cambiar MONGO_URL en .env a mongodb://127.0.0.1:27017/adoptme.
-3. Instalar y correr:
+
 npm i
 npm run dev
