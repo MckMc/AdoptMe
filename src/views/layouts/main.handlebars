@@ -11,6 +11,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
+<body>
 <header class="topbar">
   <nav class="nav">
     <a class="nav__logo" href="/home">
@@ -26,8 +27,35 @@
   </nav>
 </header>
 
-<body>
+<main class="page">
   {{{body}}}
+</main>
+
+  <footer class="siteFooter">
+    <div class="siteFooter__inner">
+      <span class="siteFooter__text">
+        Página creada por <strong>Manuel Cecchin Kuhn</strong>
+      </span>
+
+      <div class="siteFooter__icons">
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/manuel-cecchin-kuhn"
+          target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM14.5 9c-2.21 0-3.5 1.21-3.5 3.06V21h4v-6.2c0-1.08.77-1.86 1.86-1.86 1.06 0 1.64.74 1.64 1.86V21h4v-6.95C22.5 10.58 20.92 9 18.64 9c-1.53 0-2.69.68-3.14 1.5h-.04V9h-1z"/>
+          </svg>
+        </a>
+        <!-- GitHub -->
+        <a href="https://github.com/MckMc"
+          target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+            <path d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.2c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.1-.75.08-.74.08-.74 1.21.09 1.85 1.25 1.85 1.25 1.08 1.85 2.83 1.31 3.52 1 .11-.79.42-1.31.76-1.61-2.67-.3-5.48-1.34-5.48-5.96 0-1.32.47-2.4 1.24-3.25-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.24a11.5 11.5 0 0 1 6 0c2.29-1.56 3.3-1.24 3.3-1.24.66 1.65.24 2.87.12 3.17.77.85 1.24 1.93 1.24 3.25 0 4.63-2.81 5.66-5.49 5.95.43.37.81 1.1.81 2.23v3.3c0 .32.21.7.83.58A12 12 0 0 0 12 .5z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
   <script>
   const btn = document.getElementById('logoutBtn');
   if (btn) {

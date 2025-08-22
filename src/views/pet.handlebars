@@ -1,7 +1,16 @@
+{{#if pet.image}}
+  <figure class="petDetail__media">
+    <img src="{{pet.image}}" alt="{{pet.name}}" />
+  </figure>
+{{/if}}
 <h1>{{pet.name}}</h1>
 <p><b>Especie:</b> {{pet.species}}</p>
 <p><b>Edad:</b> {{pet.ageYears}} años</p>
 <p><b>Estado:</b> {{#if pet.adopted}}Adoptada{{else}}Disponible{{/if}}</p>
+
+{{#if pet.description}}
+  <p class="petDetail__desc">{{pet.description}}</p>
+{{/if}}
 
 {{#if pet.adopted}}
   <p>Esta mascota ya fue adoptada.</p>

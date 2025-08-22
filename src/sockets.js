@@ -1,7 +1,4 @@
 import { Server } from 'socket.io';
-import {
-    listProducts, createProduct, deleteProduct
-} from './services/products.service.js';
 
 export function registerSockets(httpServer) {
     const io = new Server(httpServer);
@@ -23,17 +20,5 @@ export function registerSockets(httpServer) {
             cb && cb({ ok: false, error: e.message });
         }
     });
-
-
-    // eliminar producto vía WS
-    socket.on('deleteProduct', async (pid, cb) => {
-            try {
-            await deleteProduct(pid);
-            io.emit('products', await listProducts());
-            cb && cb({ ok: true });
-        } catch (e) {
-            cb && cb({ ok: false, error: e.message });
-        }
-        });
     });
 }
