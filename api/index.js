@@ -6,12 +6,15 @@ let mongoReady;
 
 export default async function handler(req, res) {
   if (!mongoReady) {
-    mongoReady = connectMongo().catch(err => {
+    try {
+      await connectMongo();
+      mongoReady = true;
+    } catch (err) {
       console.error('Mongo connect failed', err);
-      mongoReady = null;
-    });
+      res.statusCode = 500;
+      return res.end('DB connection error');
+    }
   }
-  await mongoReady;
   const wrapped = serverless(app);
   return wrapped(req, res);
 }
