@@ -3,3 +3,4 @@ uploads
 coverage
 npm-debug.log
 .DS_Store
+node_modules/
