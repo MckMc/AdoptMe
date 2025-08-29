@@ -3,8 +3,13 @@
   "functions": {
     "api/index.js": {
       "runtime": "nodejs20.x",
-      "includeFiles": ["src/views/**", "src/public/**", "uploads/**"]
+      "includeFiles": [
+        "src/**",
+        "uploads/**"
+      ]
     }
   },
-  "routes": [{ "src": "/(.*)", "dest": "/api/index.js" }]
+  "routes": [
+    { "src": "/(.*)", "dest": "/api/index.js" }
+  ]
 }
