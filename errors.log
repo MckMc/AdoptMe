@@ -279,3 +279,10 @@
 {"level":"http","message":"➡ GET /home","timestamp":"2025-08-22T17:23:06.065Z"}
 {"level":"http","message":"➡ GET /","timestamp":"2025-08-28T20:40:50.795Z"}
 {"level":"http","message":"➡ GET /home","timestamp":"2025-08-28T20:40:50.816Z"}
+{"level":"http","message":"➡ GET /","timestamp":"2025-08-29T04:38:15.854Z"}
+{"level":"http","message":"➡ GET /home","timestamp":"2025-08-29T04:38:15.888Z"}
+{"level":"http","message":"➡ GET /logo.ico","timestamp":"2025-08-29T04:38:16.202Z"}
+{"level":"http","message":"➡ GET /pets","timestamp":"2025-08-29T04:38:19.436Z"}
+{"level":"http","message":"➡ GET /pets?adopted=false","timestamp":"2025-08-29T04:38:26.877Z"}
+{"level":"http","message":"➡ GET /pets?species=dog","timestamp":"2025-08-29T04:38:30.815Z"}
+{"level":"http","message":"➡ GET /pets?species=other","timestamp":"2025-08-29T04:38:33.809Z"}
