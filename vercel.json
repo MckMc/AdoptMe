@@ -3,10 +3,7 @@
   "functions": {
     "api/index.js": {
       "runtime": "nodejs20.x",
-      "includeFiles": [
-        "src/**",
-        "uploads/**"
-      ]
+      "includeFiles": "{src/**,uploads/**}"
     }
   },
   "routes": [
