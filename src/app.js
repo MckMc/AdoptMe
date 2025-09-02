@@ -22,7 +22,7 @@ import { errorHandler } from './middlewares/error.js';
 import { mountSwagger } from './docs/swagger.js';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
