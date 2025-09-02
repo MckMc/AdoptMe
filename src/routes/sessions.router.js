@@ -7,9 +7,12 @@ import { UserModel } from '../models/user.schema.js';
 import { CartModel } from '../models/cart.schema.js';
 import nodemailer from 'nodemailer';
 import { toUserDTO } from '../dtos/user.dto.js';
+import { ensureDb } from '../db/mongo.js';
+
 
 
 const router = Router();
+router.use(ensureDb);
 
 const signJWT = (uid) => jwt.sign({ uid }, process.env.JWT_SECRET, { expiresIn:'24h' });
 const signReset = (uid) => jwt.sign({ uid }, process.env.RESET_SECRET, { expiresIn:'1h' });

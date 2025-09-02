@@ -5,8 +5,10 @@ import {
 } from '../controllers/carts.controller.js';
 import { requireAuth, requireRole } from '../middlewares/authz.js';
 import { purchase } from '../controllers/carts.controller.js';
+import { ensureDb } from '../db/mongo.js';
 
 const router = Router();
+router.use(ensureDb);
 
 router.post('/', requireAuth, requireRole('user'), postCart);
 router.get('/:cid', requireAuth, getCartProducts);

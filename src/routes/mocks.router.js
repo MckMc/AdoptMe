@@ -3,8 +3,10 @@ import { mockPet, mockUser } from '../mocks/factory.js';
 import { PetModel } from '../models/pet.schema.js';
 import { UserModel } from '../models/user.schema.js';
 import { AppError, ERRORS } from '../middlewares/error.js';
+import { ensureDb } from '../db/mongo.js';
 
 const router = Router();
+router.use(ensureDb); 
 
 //  GET /api/mocks/mockingpets?qty=100 
 router.get('/mockingpets', async (req, res, next) => {

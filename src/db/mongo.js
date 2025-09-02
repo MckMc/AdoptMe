@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
-let cached = global.__mongoose;
-if (!cached) cached = (global.__mongoose = { conn: null, promise: null });
+let cached = global._mongoose;
+if (!cached) cached = global._mongoose = { conn: null, promise: null };
 
 export function isConnected() {
-  return !!cached.conn && mongoose.connection.readyState === 1;
+  return !!(cached.conn && mongoose.connection.readyState === 1);
 }
 
 export async function connectMongo() {
@@ -12,14 +12,32 @@ export async function connectMongo() {
 
   if (!cached.promise) {
     const uri = process.env.MONGO_URL;
+    mongoose.set('strictQuery', true);
+    mongoose.set('bufferCommands', false);
+
     cached.promise = mongoose.connect(uri, {
       serverSelectionTimeoutMS: 5000,
       connectTimeoutMS: 5000,
       socketTimeoutMS: 8000,
-      family: 4
-    }).then(m => m);
+      family: 4,
+      maxPoolSize: 3,
+    }).then((m) => {
+      cached.conn = m;
+      return m;
+    });
   }
 
-  cached.conn = await cached.promise;
-  return cached.conn;
+  return cached.promise;
+}
+
+export async function ensureDb(req, res, next) {
+  if (isConnected()) return next();
+  try {
+    await connectMongo();
+    return next();
+  } catch (err) {
+    console.error('DB connect error:', err?.message);
+    return res.status(503).type('text/plain')
+      .send('DB temporalmente no disponible. Probá en unos segundos.');
+  }
 }

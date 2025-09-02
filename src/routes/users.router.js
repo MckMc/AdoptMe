@@ -1,7 +1,10 @@
 import { upload } from '../middlewares/upload.js';
 import { Router } from 'express';
 import { UserModel } from '../models/user.schema.js';
+import { ensureDb } from '../db/mongo.js';
+
 const router = Router();
+router.use(ensureDb);
 router.get('/', async (_req,res)=> {
   const docs = await UserModel.find({}, { password:0 }).limit(100).lean(); // oculta hash
   res.json({ count: docs.length, items: docs });

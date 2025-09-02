@@ -2,9 +2,11 @@ import { Router } from 'express';
 import { PetModel } from '../models/pet.schema.js';
 import { AppError, ERRORS } from '../middlewares/error.js';
 import passport from 'passport';
+import { ensureDb } from '../db/mongo.js';
+
 
 const router = Router();
-
+router.use(ensureDb);
 // POST
 router.post('/:pid',
   passport.authenticate('current', { session:false }),
