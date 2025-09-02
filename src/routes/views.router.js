@@ -5,8 +5,6 @@ import { ensureDb } from '../db/mongo.js';
 
 const router = Router();
 
-router.use(ensureDb);
-
 const timeout = (ms) =>
   new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms));
 
@@ -44,6 +42,8 @@ router.get('/home', async (_req, res, next) => {
   }
 });
 
+router.use(ensureDb);
+
 /** Listado de mascotas */
 router.get('/pets', async (req, res, next) => {
   try {
@@ -73,5 +73,4 @@ router.get('/auth/reset', (req,res)=> {
 
 /** Evitar ruido de /favicon.ico si no lo sirve static */
 router.get('/favicon.ico', (_req, res) => res.status(204).end());
-
 export default router;
