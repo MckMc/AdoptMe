@@ -30,5 +30,4 @@ export const config = {
   runtime: 'nodejs',
   maxDuration: 10,
   regions: ['iad1'],
-  includeFiles: ['src/views/**', 'public/**', 'uploads/**']
 };
