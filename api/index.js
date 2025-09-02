@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     res.setHeader('content-type', 'application/json');
     return res.end(JSON.stringify({ ok: true }));
   }
-
+  // return res.end('ok homepage');
   if (!isConnected()) {
     try {
       await connectMongo();
@@ -31,4 +31,5 @@ export const config = {
   runtime: 'nodejs',
   regions: ['gru1'],
   maxDuration: 10,
+  includeFiles: 'src/{views,public,uploads}/**'
 };

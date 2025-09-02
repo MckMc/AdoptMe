@@ -2,9 +2,6 @@
     "name": "ecommerce-backend",
     "version": "1.0.0",
     "type": "module",
-    "engines": {
-        "node": "20.x"
-    },
     "main": "src/server.js",
     "scripts": {
         "dev": "node --watch src/server.js",
