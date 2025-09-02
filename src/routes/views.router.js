@@ -7,7 +7,8 @@ const router = Router();
 router.use(ensureDb);
 
 /** Root -> Home */
-router.get('/', (_req, res) => res.redirect('/home'));
+// router.get('/', (_req, res) => res.redirect('/home'));
+router.get('/home', (req, res) => res.send('ok home'));
 
 /** Home: propósito + métricas + galería */
 router.get('/home', async (_req, res, next) => {

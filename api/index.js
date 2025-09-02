@@ -22,6 +22,9 @@ export default async function handler(req, res) {
       return res.end('DB connection error');
     }
   }
+  if (pathname === '/dbz') {
+  return res.end(JSON.stringify({ ok: true, db: isConnected() }));
+  }
 
   const wrapped = serverless(app);
   return wrapped(req, res);
@@ -31,5 +34,6 @@ export const config = {
   runtime: 'nodejs',
   regions: ['gru1'],
   maxDuration: 10,
+  regions: ['iad1'],
   includeFiles: 'src/{views,public,uploads}/**'
 };
