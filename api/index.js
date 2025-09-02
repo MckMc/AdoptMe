@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 }
 
 export const config = {
-  runtime: 'nodejs20.x',
+  runtime: 'nodejs',
   regions: ['gru1'],
   maxDuration: 10,
 };
