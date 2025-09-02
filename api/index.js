@@ -11,20 +11,14 @@ export default async function handler(req, res) {
   const pathname = req.headers['x-vercel-original-pathname'] || req.url;
 
   // --- rutas ultra rápidas, sin DB ---
-  if (pathname === '/healthz') {
-    res.statusCode = 200;
-    res.setHeader('content-type', 'application/json');
-    res.end(JSON.stringify({ ok: true }));
-    return;
-  }
-  if (pathname === '/favicon.ico') {
-    res.statusCode = 204;
-    return res.end();
-  }
-  if (pathname === '/') {
-    res.statusCode = 302;
-    res.setHeader('Location', '/home');
-    return res.end();
+  if (
+    pathname === '/healthz' ||
+    pathname === '/home' ||
+    pathname === '/' ||
+    pathname === '/favicon.ico' ||
+    pathname === '/favicon.png'
+  ) {
+    return wrapped(req, res);
   }
   // -----------------------------------
 
