@@ -1,6 +1,10 @@
 {
   "version": 2,
-  "routes": [
-    { "src": "/(.*)", "dest": "/api/index.js" }
-  ]
+  "functions": {
+    "api/index.js": {
+      "runtime": "nodejs",
+      "includeFiles": ["src/views/**", "public/**", "uploads/**"]
+    }
+  },
+  "routes": [{ "src": "/(.*)", "dest": "/api/index.js" }]
 }
