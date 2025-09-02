@@ -286,3 +286,5 @@
 {"level":"http","message":"➡ GET /pets?adopted=false","timestamp":"2025-08-29T04:38:26.877Z"}
 {"level":"http","message":"➡ GET /pets?species=dog","timestamp":"2025-08-29T04:38:30.815Z"}
 {"level":"http","message":"➡ GET /pets?species=other","timestamp":"2025-08-29T04:38:33.809Z"}
+{"level":"http","message":"➡ GET /","timestamp":"2025-09-02T02:01:50.080Z"}
+{"level":"http","message":"➡ GET /home","timestamp":"2025-09-02T02:01:50.091Z"}

@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import { listPetsMongo, getPetById } from '../services/pets.mongo.service.js';
 import { PetModel } from '../models/pet.schema.js';
+import { ensureDb } from '../db/mongo.js';
 
 const router = Router();
+router.use(ensureDb);
 
 /** Root -> Home */
 router.get('/', (_req, res) => res.redirect('/home'));
