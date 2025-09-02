@@ -3,7 +3,7 @@
   "functions": {
     "api/index.js": {
       "runtime": "nodejs",
-      "includeFiles": ["src/views/**", "public/**", "uploads/**"]
+      "includeFiles": "src/**"
     }
   },
   "routes": [{ "src": "/(.*)", "dest": "/api/index.js" }]
