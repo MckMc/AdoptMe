@@ -1,16 +1,19 @@
-// api/index.js
 import serverless from 'serverless-http';
 import app from '../src/app.js';
 import { connectMongo, isConnected } from '../src/db/mongo.js';
 
+const wrapped = serverless(app);
 export default async function handler(req, res) {
   const pathname = req.headers['x-vercel-original-pathname'] || req.url;
-  if (pathname === '/healthz') {
+
+  // health check
+  if (pathname === '/healthz' || pathname === '/api/healthz') {
+    res.statusCode = 200;
     res.setHeader('content-type', 'application/json');
     return res.end(JSON.stringify({ ok: true }));
   }
 
-  // Asegurar conexión a DB
+  // conectá sólo si hace falta
   if (!isConnected()) {
     try { await connectMongo(); }
     catch (err) {
@@ -20,14 +23,12 @@ export default async function handler(req, res) {
     }
   }
 
-  // Enviar al app de Express
-  const wrapped = serverless(app);
   return wrapped(req, res);
 }
 
-// Config de la función en Vercel
 export const config = {
   runtime: 'nodejs',
-  maxDuration: 10,
-  regions: ['iad1'],
+  regions: ['gru1'],
+  maxDuration: 15
 };
+

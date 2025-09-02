@@ -4,28 +4,47 @@ import { PetModel } from '../models/pet.schema.js';
 import { ensureDb } from '../db/mongo.js';
 
 const router = Router();
+
 router.use(ensureDb);
 
+const timeout = (ms) =>
+  new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms));
+
 /** Root -> Home */
-// router.get('/', (_req, res) => res.redirect('/home'));
-router.get('/home', (req, res) => res.send('ok home'));
+router.get('/', (_req, res) => res.redirect('/home'));
 
 /** Home: propósito + métricas + galería */
 router.get('/home', async (_req, res, next) => {
+  // valores por defecto si Atlas está lento
+  let stats = { total: '–', adoptadas: '–', disponibles: '–' };
+
   try {
-    const [total, adoptadas, disponibles] = await Promise.all([
-      PetModel.countDocuments({}),
-      PetModel.countDocuments({ adopted: true }),
-      PetModel.countDocuments({ adopted: false }),
+    await Promise.race([
+      (async () => {
+        const [total, adoptadas, disponibles] = await Promise.all([
+          PetModel.countDocuments({}).maxTimeMS(2000),
+          PetModel.countDocuments({ adopted: true }).maxTimeMS(2000),
+          PetModel.countDocuments({ adopted: false }).maxTimeMS(2000),
+        ]);
+        stats = { total, adoptadas, disponibles };
+      })(),
+      timeout(2500),
     ]);
-    res.render('home', {
+  } catch (e) {
+    console.warn('home stats slow/timeout:', e.message);
+  }
+
+  try {
+    return res.render('home', {
       title: 'PetAdopt',
-      stats: { total, adoptadas, disponibles },
+      stats,
     });
-  } catch (e) { next(e); }
+  } catch (e) {
+    return next(e);
+  }
 });
 
-/** Listado de mascotas (con filtros) */
+/** Listado de mascotas */
 router.get('/pets', async (req, res, next) => {
   try {
     const data = await listPetsMongo(req.query);
@@ -43,7 +62,7 @@ router.get('/pets/:pid', async (req, res, next) => {
 });
 
 /** Auth  */
-router.get('/login',  (_req,res)=> res.render('auth/login',    { title:'Iniciar sesión' }));
+router.get('/login',   (_req,res)=> res.render('auth/login',    { title:'Iniciar sesión' }));
 router.get('/register',(_req,res)=> res.render('auth/register', { title:'Registrarse' }));
 router.get('/auth/forgot', (_req,res)=> res.render('auth/forgot', { title:'Recuperar contraseña' }));
 router.get('/auth/reset', (req,res)=> {
@@ -51,5 +70,8 @@ router.get('/auth/reset', (req,res)=> {
   if(!token) return res.status(400).send('Token requerido');
   res.render('auth/reset', { title:'Restablecer contraseña', token });
 });
+
+/** Evitar ruido de /favicon.ico si no lo sirve static */
+router.get('/favicon.ico', (_req, res) => res.status(204).end());
 
 export default router;
