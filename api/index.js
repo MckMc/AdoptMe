@@ -3,17 +3,16 @@ import app from '../src/app.js';
 import { connectMongo, isConnected } from '../src/db/mongo.js';
 
 const wrapped = serverless(app);
-const race = (p, ms) => Promise.race([p, new Promise((_, r) => setTimeout(() => r(new Error('timeout')), ms))]);
+const timeout = (ms, msg='timeout') => new Promise((_, r) => setTimeout(() => r(new Error(msg)), ms));
 
 export default async function handler(req, res) {
   const pathname = req.headers['x-vercel-original-pathname'] || req.url;
 
-  // --- rutas ultra rápidas, sin DB ---
+  // Rutas sin DB
   if (pathname === '/healthz') {
     res.statusCode = 200;
     res.setHeader('content-type', 'application/json');
-    res.end(JSON.stringify({ ok: true }));
-    return;
+    return res.end(JSON.stringify({ ok: true }));
   }
   if (pathname === '/favicon.ico' || pathname === '/favicon.png') {
     res.statusCode = 204;
@@ -24,11 +23,10 @@ export default async function handler(req, res) {
     res.setHeader('Location', '/home');
     return res.end();
   }
-  // -----------------------------------
 
   if (!isConnected()) {
     try {
-      await race(connectMongo(), 2500);
+      await Promise.race([ connectMongo(), timeout(2500) ]);
     } catch {
       res.statusCode = 503;
       res.setHeader('content-type', 'text/plain');
