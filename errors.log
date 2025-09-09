@@ -317,3 +317,14 @@
 {"level":"http","message":"➡ GET /static/styles.css","timestamp":"2025-09-02T19:19:20.407Z"}
 {"level":"http","message":"➡ GET /static/css/site.css","timestamp":"2025-09-02T19:19:20.411Z"}
 {"level":"http","message":"➡ GET /static/img/logo.png","timestamp":"2025-09-02T19:19:20.525Z"}
+{"level":"http","message":"➡ GET /","timestamp":"2025-09-09T21:47:58.948Z"}
+{"level":"http","message":"➡ GET /home","timestamp":"2025-09-09T21:47:58.957Z"}
+{"level":"http","message":"➡ GET /static/styles.css","timestamp":"2025-09-09T21:47:59.078Z"}
+{"level":"http","message":"➡ GET /static/css/site.css","timestamp":"2025-09-09T21:47:59.081Z"}
+{"level":"http","message":"➡ GET /static/img/hero-dog.jpg","timestamp":"2025-09-09T21:47:59.084Z"}
+{"level":"http","message":"➡ GET /static/img/cat.jpg","timestamp":"2025-09-09T21:47:59.085Z"}
+{"level":"http","message":"➡ GET /static/img/parrot.jpg","timestamp":"2025-09-09T21:47:59.093Z"}
+{"level":"http","message":"➡ GET /static/img/dog-smile.jpg","timestamp":"2025-09-09T21:47:59.094Z"}
+{"level":"http","message":"➡ GET /static/img/logo.png","timestamp":"2025-09-09T21:47:59.094Z"}
+{"level":"http","message":"➡ GET /static/img/logo.png","timestamp":"2025-09-09T21:47:59.140Z"}
+{"level":"http","message":"➡ GET /logo.ico","timestamp":"2025-09-09T21:47:59.144Z"}

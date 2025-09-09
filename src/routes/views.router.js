@@ -1,32 +1,38 @@
 import { Router } from 'express';
-import { listPetsMongo, getPetById } from '../services/pets.mongo.service.js';
 import { PetModel } from '../models/pet.schema.js';
-import { ensureDb } from '../db/mongo.js';
+import { ensureDb, isConnected } from '../db/mongo.js';
 
 const router = Router();
-router.use(ensureDb);
 
-const limit = (p, ms) => Promise.race([p, new Promise((_, r) => setTimeout(() => r(new Error('timeout')), ms))]);
-
-// raíz -> redirect
+// Root
 router.get('/', (_req, res) => res.redirect('/home'));
 
-// Home
-router.get('/home', async (_req, res, next) => {
+const race = (p, ms = 1200) =>
+  Promise.race([p, new Promise((_, r) => setTimeout(() => r(new Error('timeout')), ms))]);
+
+router.get('/home', async (_req, res) => {
   let stats = { total: 0, adoptadas: 0, disponibles: 0 };
-  try {
-    const counts = Promise.all([
-      PetModel.countDocuments({}).maxTimeMS(1800),
-      PetModel.countDocuments({ adopted: true }).maxTimeMS(1800),
-      PetModel.countDocuments({ adopted: false }).maxTimeMS(1800),
-    ]);
-    const [total, adoptadas, disponibles] = await limit(counts, 1900);
-    stats = { total, adoptadas, disponibles };
-  } catch { /* fallback con ceros */ }
-  try {
-    return res.render('home', { title: 'PetAdopt', stats });
-  } catch (e) { return next(e); }
+
+  if (isConnected()) {
+    try {
+      const [total, adoptadas, disponibles] = await race(
+        Promise.all([
+          PetModel.estimatedDocumentCount().maxTimeMS(800),
+          PetModel.countDocuments({ adopted: true }).maxTimeMS(800),
+          PetModel.countDocuments({ adopted: false }).maxTimeMS(800),
+        ]),
+        900
+      );
+      stats = { total, adoptadas, disponibles };
+    } catch {/* si se vence el timeout, seguimos con ceros */}
+  }
+
+  res.render('home', { title: 'PetAdopt', stats });
 });
 
-// demás rutas…
+// Rutas que SÍ necesitan DB
+router.get('/pets', ensureDb, async (req, res, next) => { /* tu lógica actual */ });
+router.get('/pets/:pid', ensureDb, async (req, res, next) => { /* tu lógica actual */ });
+
 export default router;
+
