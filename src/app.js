@@ -21,7 +21,6 @@ import { requestLogger } from './logger/index.js';
 import { errorHandler } from './middlewares/error.js';
 import { mountSwagger } from './docs/swagger.js';
 
-const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
@@ -29,8 +28,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static('uploads'));
+app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 app.use(requestLogger);
 
 initPassport();

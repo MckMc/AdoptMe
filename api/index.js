@@ -32,9 +32,9 @@ export default async function handler(req, res) {
   const canSkipDb =
     pathname === '/home' || pathname.startsWith('/login') || pathname.startsWith('/register') || isStatic;
 
-  if (!canSkipDb && !isConnected()) {
+  if (!isConnected()) {
     try {
-      await withTimeout(connectMongo(), 2500);
+      await Promise.race([connectMongo(), new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 2000))]);
     } catch {
       res.statusCode = 503;
       res.setHeader('content-type', 'text/plain');
