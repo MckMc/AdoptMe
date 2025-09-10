@@ -31,6 +31,7 @@ app.use(cookieParser());
 app.use('/static', express.static(path.resolve('src/public')));
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 app.use(requestLogger);
+app.get('/healthz', (_req,res) => res.json({ ok: true, env: 'local' }));
 
 initPassport();
 app.use(passport.initialize());
