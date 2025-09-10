@@ -2,47 +2,66 @@ import serverless from 'serverless-http';
 import app from '../src/app.js';
 import { connectMongo, isConnected } from '../src/db/mongo.js';
 
-const wrapped = serverless(app);
+const wrapped = serverless(app, { callbackWaitsForEmptyEventLoop: false });
 
-const withTimeout = (p, ms = 2500) =>
-  Promise.race([p, new Promise((_, r) => setTimeout(() => r(new Error('timeout')), ms))]);
+// util para timeout si lo estás usando
+const race = (p, ms) => Promise.race([p, new Promise((_, r) => setTimeout(() => r(new Error('timeout')), ms))]);
 
 export default async function handler(req, res) {
   const pathname = req.headers['x-vercel-original-pathname'] || req.url;
 
-  // Rutas ultra-rápidas sin DB
+  console.time('REQ total');
+
+  // --- rutas ultra rápidas, sin DB ---
   if (pathname === '/healthz') {
     res.statusCode = 200;
     res.setHeader('content-type', 'application/json');
     res.end(JSON.stringify({ ok: true }));
+    console.timeEnd('REQ total');
     return;
   }
-  if (pathname === '/favicon.ico' || pathname === '/favicon.png') {
+  if (pathname === '/favicon.ico') {
     res.statusCode = 204;
-    return res.end();
+    res.end();
+    console.timeEnd('REQ total');
+    return;
   }
   if (pathname === '/') {
     res.statusCode = 302;
     res.setHeader('Location', '/home');
-    return res.end();
+    res.end();
+    console.timeEnd('REQ total');
+    return;
   }
+  // -----------------------------------
 
-  // No obligues DB en rutas que pueden responder sin DB
-  const isStatic = pathname.startsWith('/static/') || pathname.startsWith('/uploads/');
-  const canSkipDb =
-    pathname === '/home' || pathname.startsWith('/login') || pathname.startsWith('/register') || isStatic;
-
+  // conexión a DB solo si hace falta
   if (!isConnected()) {
+    console.time('DB connectMongo');
     try {
-      await Promise.race([connectMongo(), new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 2000))]);
-    } catch {
+      await race(connectMongo(), 2500);
+    } catch (err) {
+      console.timeEnd('DB connectMongo');
       res.statusCode = 503;
       res.setHeader('content-type', 'text/plain');
-      return res.end('DB temporalmente no disponible. Probá en unos segundos.');
+      res.end('DB temporalmente no disponible. Probá en unos segundos.');
+      console.timeEnd('REQ total');
+      return;
     }
+    console.timeEnd('DB connectMongo');
   }
 
-  return wrapped(req, res);
+  console.time('EXPRESS wrapped');
+  const result = await wrapped(req, res);
+  console.timeEnd('EXPRESS wrapped');
+
+  console.timeEnd('REQ total');
+  return result;
 }
 
-export const config = { runtime: 'nodejs', regions: ['iad1'], maxDuration: 10, memory: 1024 };
+export const config = {
+  runtime: 'nodejs',
+  regions: ['iad1'],
+  maxDuration: 10,
+  memory: 1024,
+};
