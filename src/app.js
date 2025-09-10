@@ -28,7 +28,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.resolve('src/public')));
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 app.use(requestLogger);
 
@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 app.engine('handlebars', handlebars.engine({
   helpers: { json: (ctx) => JSON.stringify(ctx) }
 }));
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.resolve('src/views'));
 app.set('view engine', 'handlebars');
 app.set('trust proxy', 1);
 
