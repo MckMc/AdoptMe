@@ -1,5 +1,9 @@
 {
   "version": 2,
-  "functions": { "api/index.js": { "includeFiles": "src/**" } },
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "src/public/**"
+    }
+  },
   "routes": [{ "src": "/(.*)", "dest": "/api/index.js" }]
 }
