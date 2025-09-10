@@ -2,10 +2,7 @@
   "version": 2,
   "functions": {
     "api/index.js": {
-      "includeFiles": [
-        "src/views/**",
-        "src/public/**"
-      ]
+      "includeFiles": "src/**"
     }
   },
   "routes": [{ "src": "/(.*)", "dest": "/api/index.js" }]
