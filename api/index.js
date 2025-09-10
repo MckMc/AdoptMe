@@ -37,7 +37,6 @@ export default async function handler(req, res) {
 
 export const config = {
   runtime: 'nodejs',
-  regions: ['iad1', 'gru1'],
   maxDuration: 10,
   memory: 1024,
 };
