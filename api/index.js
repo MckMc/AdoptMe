@@ -45,4 +45,4 @@ export default async function handler(req, res) {
   return wrapped(req, res);
 }
 
-export const config = { runtime: 'nodejs', regions: ['gru1'], maxDuration: 10, memory: 1024 };
+export const config = { runtime: 'nodejs', regions: ['iad1'], maxDuration: 10, memory: 1024 };
